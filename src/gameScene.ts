@@ -1,4 +1,3 @@
-//import { Images } from "./images";
 import { Board } from "./board"
 
 export class GameScene {
@@ -46,8 +45,6 @@ export class GameScene {
 		// 盤面を描画
 		ctx.drawImage(this.board.canvas, 0, this.boardHeight,
 			this.board.width * this.scale, this.board.height * this.scale);
-		// ctx.drawImage(this.board.canvas, 0, 0)
-		// ctx.drawImage(this.images.rough, 0, 0, this.images.width, this.images.height);
 
 		// 戦闘画面を描画
 

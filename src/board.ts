@@ -20,7 +20,6 @@ export class Board {
 
 	constructor() {
 		// 画像読み込み
-		// this.rough.src = rough
 		// this.left.src = left
 
 		// ドロップ
@@ -38,19 +37,8 @@ export class Board {
 		this.drawDrop()
 	}
 
-	// 背景を描画
-	drawBG() {
-		// 市松模様
-		for (let i = 0; i < this.drop.width; i++) {
-			for (let j = 0; j < this.drop.height; j++) {
-				this.ctx.fillStyle = this.getCheckeredCode(i, j)
-				this.ctx.fillRect(i * this.gridWidth, j * this.gridHeight, this.gridWidth, this.gridHeight)
-			}
-		}
-	}
-
 	// 盤面のドロップを描画
-	drawDrop() {
+	private drawDrop() {
 		for (let i = 0; i < this.drop.width; i++) {
 			for (let j = 0; j < this.drop.height; j++) {
 				this.ctx.drawImage(this.drop.colorMap[this.drop.map[i][j]], i * this.gridWidth, j * this.gridHeight, this.gridWidth, this.gridHeight)
@@ -58,7 +46,19 @@ export class Board {
 		}
 	}
 
-	getCheckeredCode(i:number, j:number): string {
+	// 背景を描画
+	private drawBG() {
+		// 市松模様
+		for (let i = 0; i < this.drop.width; i++) {
+			for (let j = 0; j < this.drop.height; j++) {
+				this.ctx.fillStyle = this.calcCheckeredCode(i, j)
+				this.ctx.fillRect(i * this.gridWidth, j * this.gridHeight, this.gridWidth, this.gridHeight)
+			}
+		}
+	}
+
+	// 市松模様のカラーコードを計算
+	private calcCheckeredCode(i:number, j:number): string {
 		if((i % 2 == 1 && j % 2 == 0) ||
 		(i % 2 == 0 && j % 2 == 1)) {
 			return "#492300"

@@ -6,7 +6,7 @@ export class Drop {
 	height = 5
 
 	// 画像
-	img  = document.createElement("img")
+	img   = document.createElement("img")
 	fire  = document.createElement("canvas")
 	water = document.createElement("canvas")
 	tree  = document.createElement("canvas")
@@ -17,24 +17,35 @@ export class Drop {
 
 	// 管理番号と画像の対応
 	colorMap = {0:this.fire,
-			 1:this.water,
-			 2:this.tree,
-			 3:this.shine,
-			 4:this.dark,
-			 5:this.cure}
+				1:this.water,
+				2:this.tree,
+				3:this.shine,
+				4:this.dark,
+				5:this.cure}
 
 	constructor() {
 		// 画像読み込み
+		this.setIMG()
+
+		// ランダムなドロップを配置
+		this.setDrop()
+	}
+
+	// 画像読み込み
+	private setIMG() {
 		this.img.src = img
 		const drops = [this.fire, this.water, this.tree, this.shine, this.dark, this.cure]
 		for (let i = 0; i < drops.length; i++) {
 			let ctx = drops[i].getContext('2d')
 			drops[i].width = 100
 			drops[i].height = 100
+			// 画像ソースのx,y,w,h,canvasのx,y,w,h
 			ctx.drawImage(this.img, i*100 + 10, 0, 100, 100, 0, 0, 100, 100)
 		}
+	}
 
-		// ランダムなドロップを配置
+	// ランダムなドロップを配置
+	private setDrop() {
 		this.map = new Array()
 		for (let i = 0; i < this.width; i++) {
 			this.map[i] = new Array()
