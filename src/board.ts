@@ -35,6 +35,7 @@ export class Board {
 
 	update() {
 		this.drawBG()
+		this.drawDrop()
 	}
 
 	// 背景を描画
@@ -46,6 +47,11 @@ export class Board {
 				this.ctx.fillRect(i * this.gridWidth, j * this.gridHeight, this.gridWidth, this.gridHeight)
 			}
 		}
+	}
+
+	// 盤面のドロップを描画
+	drawDrop() {
+
 	}
 
 	getCheckeredCode(i:number, j:number): string {

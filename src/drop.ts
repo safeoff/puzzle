@@ -1,7 +1,12 @@
+import * as img from "../img/block.png";
 export class Drop {
 	map: number[][]
+ 	img = document.createElement("img")
 
 	constructor() {
+		// 画像読み込み
+ 		this.img.src = img
+
 		this.map = new Array()
 		// ランダムなドロップを配置
 		for (let i = 0; i < 6; i++) {
