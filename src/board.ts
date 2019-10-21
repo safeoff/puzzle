@@ -1,14 +1,19 @@
+import { Drop } from "./drop"
+
 export class Board {
 	// 盤面
 	canvas = document.createElement("canvas")
 	ctx = this.canvas.getContext('2d')
-// 	left = document.createElement("img")
+	// 	left = document.createElement("img")
 
 	// canvasの幅と高さ
 	width = 480
 	height = 400
 	gridWidth
 	gridHeight
+
+	// ドロップ
+	drop: Drop
 
 	// debug 左手のアニメーション時間
 	leftTime = 59
@@ -18,23 +23,37 @@ export class Board {
 		// this.rough.src = rough
 		// this.left.src = left
 
+		// サイズ
 		this.canvas.width = this.width
 		this.canvas.height = this.height
-
 		this.gridWidth = this.width / 6
 		this.gridHeight = this.height / 5
+
+		// ドロップ
+		this.drop = new Drop()
 	}
 
 	update() {
 		this.drawBG()
-		this.ctx.fillStyle = "black"
-		this.ctx.fillRect(10,10,10,10)
 	}
 
 	// 背景を描画
 	drawBG() {
-		this.ctx.fillStyle = "darkgray"
-		this.ctx.fillRect(0, 0, this.width, this.height)
+		// 市松模様
+		for (let i = 0; i < 6; i++) {
+			for (let j = 0; j < 5; j++) {
+				this.ctx.fillStyle = this.getCheckeredCode(i, j)
+				this.ctx.fillRect(i * this.gridWidth, j * this.gridHeight, this.gridWidth, this.gridHeight)
+			}
+		}
+	}
+
+	getCheckeredCode(i:number, j:number): string {
+		if((i % 2 == 1 && j % 2 == 0) ||
+		(i % 2 == 0 && j % 2 == 1)) {
+			return "#492300"
+		}
+		return "#381400"
 	}
 
 	// 左手の状態を更新して位置を返す

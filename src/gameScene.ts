@@ -11,6 +11,9 @@ export class GameScene {
 	height = this.width * 1.5
 	scale = this.width / 480
 
+	// 要素の位置
+	boardHeight
+
 	constructor() {
 		// 画像読み込み
 		this.board= new Board()
@@ -25,6 +28,9 @@ export class GameScene {
 		// 内部バッファの幅と高さ
 		this.buff.width = this.width
 		this.buff.height= this.height
+
+		// 要素の位置
+		this.boardHeight = this.height - this.board.height * this.scale
 	}
 
 	// ゲームの状態を更新する
@@ -38,7 +44,8 @@ export class GameScene {
 		ctx.clearRect(0, 0, this.buff.width, this.buff.height)
 
 		// 盤面を描画
-		ctx.drawImage(this.board.canvas, 0, 0, this.board.width * this.scale, this.board.height * this.scale);
+		ctx.drawImage(this.board.canvas, 0, this.boardHeight,
+			this.board.width * this.scale, this.board.height * this.scale);
 		// ctx.drawImage(this.board.canvas, 0, 0)
 		// ctx.drawImage(this.images.rough, 0, 0, this.images.width, this.images.height);
 
