@@ -1,18 +1,45 @@
 import * as img from "../img/block.png";
 export class Drop {
+	// 盤面
 	map: number[][]
- 	img = document.createElement("img")
+	width = 6
+	height = 5
+
+	// 画像
+	img  = document.createElement("img")
+	fire  = document.createElement("canvas")
+	water = document.createElement("canvas")
+	tree  = document.createElement("canvas")
+	shine = document.createElement("canvas")
+	dark  = document.createElement("canvas")
+	cure  = document.createElement("canvas")
+	colorNum = 6
+
+	// 管理番号と画像の対応
+	colorMap = {0:this.fire,
+			 1:this.water,
+			 2:this.tree,
+			 3:this.shine,
+			 4:this.dark,
+			 5:this.cure}
 
 	constructor() {
 		// 画像読み込み
- 		this.img.src = img
+		this.img.src = img
+		const drops = [this.fire, this.water, this.tree, this.shine, this.dark, this.cure]
+		for (let i = 0; i < drops.length; i++) {
+			let ctx = drops[i].getContext('2d')
+			drops[i].width = 100
+			drops[i].height = 100
+			ctx.drawImage(this.img, i*100 + 10, 0, 100, 100, 0, 0, 100, 100)
+		}
 
-		this.map = new Array()
 		// ランダムなドロップを配置
-		for (let i = 0; i < 6; i++) {
+		this.map = new Array()
+		for (let i = 0; i < this.width; i++) {
 			this.map[i] = new Array()
-			for (let j = 0; j < 5; j++) {
-				this.map[i][j] = Math.floor(Math.random() * 6)
+			for (let j = 0; j < this.height; j++) {
+				this.map[i][j] = Math.floor(Math.random() * this.colorNum)
 			}
 		}
 	}

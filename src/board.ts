@@ -23,14 +23,14 @@ export class Board {
 		// this.rough.src = rough
 		// this.left.src = left
 
+		// ドロップ
+		this.drop = new Drop()
+
 		// サイズ
 		this.canvas.width = this.width
 		this.canvas.height = this.height
-		this.gridWidth = this.width / 6
-		this.gridHeight = this.height / 5
-
-		// ドロップ
-		this.drop = new Drop()
+		this.gridWidth = this.width / this.drop.width
+		this.gridHeight = this.height / this.drop.height
 	}
 
 	update() {
@@ -41,8 +41,8 @@ export class Board {
 	// 背景を描画
 	drawBG() {
 		// 市松模様
-		for (let i = 0; i < 6; i++) {
-			for (let j = 0; j < 5; j++) {
+		for (let i = 0; i < this.drop.width; i++) {
+			for (let j = 0; j < this.drop.height; j++) {
 				this.ctx.fillStyle = this.getCheckeredCode(i, j)
 				this.ctx.fillRect(i * this.gridWidth, j * this.gridHeight, this.gridWidth, this.gridHeight)
 			}
@@ -51,7 +51,11 @@ export class Board {
 
 	// 盤面のドロップを描画
 	drawDrop() {
-
+		for (let i = 0; i < this.drop.width; i++) {
+			for (let j = 0; j < this.drop.height; j++) {
+				this.ctx.drawImage(this.drop.colorMap[this.drop.map[i][j]], i * this.gridWidth, j * this.gridHeight, this.gridWidth, this.gridHeight)
+			}
+		}
 	}
 
 	getCheckeredCode(i:number, j:number): string {
