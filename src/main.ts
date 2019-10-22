@@ -5,6 +5,9 @@ class Main {
 	private readonly ctx: CanvasRenderingContext2D
 	private GameScene: GameScene
 
+	// 触り中かどうか
+	private touched = false
+
 	// タイマーイベント開始
 	constructor() {
 		// canvasを取得・設定
@@ -16,9 +19,28 @@ class Main {
 		// ゲーム画面を初期化
 		this.GameScene = new GameScene()
 		window.requestAnimationFrame(() => this.draw())
+
+		// リスナーを入れる
+		this.canvas.addEventListener("touchstart", this.down)
+		this.canvas.addEventListener("mousedown", this.down)
+		this.canvas.addEventListener("touchmove", this.move)
+		this.canvas.addEventListener("mousemove", this.move)
+		this.canvas.addEventListener("touchend", this.up)
+		this.canvas.addEventListener("mouseup", this.up)
 	}
 
-	// TODO: タップイベントのリスナーを入れる？
+	// タップイベント達
+	down(e) {
+		this.touched = true
+	}
+
+	move(e) {
+		if (!this.touched) return
+	}
+
+	up(e) {
+		this.touched = false
+	}
 
 	// 更新と描画
 	draw() {

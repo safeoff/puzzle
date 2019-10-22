@@ -2,8 +2,8 @@ import { Drop } from "./drop"
 
 export class Board {
 	// 盤面
-	canvas = document.createElement("canvas")
-	ctx = this.canvas.getContext('2d')
+	buff= document.createElement("canvas")
+	ctx = this.buff.getContext('2d')
 	// 	left = document.createElement("img")
 
 	// canvasの幅と高さ
@@ -26,8 +26,8 @@ export class Board {
 		this.drop = new Drop()
 
 		// サイズ
-		this.canvas.width = this.width
-		this.canvas.height = this.height
+		this.buff.width = this.width
+		this.buff.height = this.height
 		this.gridWidth = this.width / this.drop.width
 		this.gridHeight = this.height / this.drop.height
 	}

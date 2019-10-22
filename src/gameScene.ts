@@ -43,7 +43,7 @@ export class GameScene {
 		ctx.clearRect(0, 0, this.buff.width, this.buff.height)
 
 		// 盤面を描画
-		ctx.drawImage(this.board.canvas, 0, this.boardHeight,
+		ctx.drawImage(this.board.buff, 0, this.boardHeight,
 			this.board.width * this.scale, this.board.height * this.scale);
 
 		// 戦闘画面を描画
