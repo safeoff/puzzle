@@ -38,14 +38,24 @@ export class Board {
 		this.drop.mctx.globalAlpha = 0.8
 	}
 
+	// 座標設定
+	setPoint(point) {
+		this.drop.preP.x = this.drop.moveP.x
+		this.drop.preP.y = this.drop.moveP.y
+		this.drop.moveP.x = Math.floor(point.x / this.gridWidth)
+		this.drop.moveP.y = Math.floor(point.y / this.gridHeight)
+	}
+
 	// 盤面の更新
-	// touched: 触り中かどうか
 	// point: 触っている座標
-	update(touched, point) {
-		// 座標計算
-		if (touched) {
-			this.drop.moveP.x = Math.floor(point.x / this.gridWidth)
-			this.drop.moveP.y = Math.floor(point.y / this.gridHeight)
+	update(point) {
+		// 座標設定
+		this.setPoint(point)
+
+		const p = JSON.stringify(this.drop.preP)
+		const m = JSON.stringify(this.drop.moveP)
+		if (p != m) {
+			this.drop.swap()
 		}
 	}
 

@@ -10,6 +10,9 @@ export class Drop {
 	move = document.createElement("canvas")
 	mctx = this.move.getContext('2d')
 
+	// 前のフレームで持っていたドロップ
+	preP = {x: 0, y: 0}
+
 	// 画像
 	img   = document.createElement("img")
 	fire  = document.createElement("canvas")
@@ -58,5 +61,11 @@ export class Drop {
 				this.map[i][j] = Math.floor(Math.random() * this.colorNum)
 			}
 		}
+	}
+
+	swap() {
+		const t = this.map[this.preP.x][this.preP.y]
+		this.map[this.preP.x][this.preP.y] = this.map[this.moveP.x][this.moveP.y]
+		this.map[this.moveP.x][this.moveP.y] = t
 	}
 }

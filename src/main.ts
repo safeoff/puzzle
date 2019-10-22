@@ -28,6 +28,11 @@ class Main {
 			this.canvas.addEventListener(event, e => {
 				this.touched = true
 				this.point = this.getPoint(e)
+
+				// 最初に触ったドロップを設定
+				const p = this.GameScene.getBoardPoint(this.point)
+				this.GameScene.board.setPoint(p)
+
 			})
 		}
 
