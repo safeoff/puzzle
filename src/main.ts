@@ -7,6 +7,7 @@ class Main {
 
 	// 触り中かどうか
 	private touched = false
+	private point = {x: 0, y: 0}
 
 	// タイマーイベント開始
 	constructor() {
@@ -26,14 +27,14 @@ class Main {
 		for (const event of events) {
 			this.canvas.addEventListener(event, e => {
 				this.touched = true
+				this.point = this.getPoint(e)
 			})
 		}
 
 		events = ["touchmove","mousemove"]
 		for (const event of events) {
 			this.canvas.addEventListener(event, e => {
-				this.touched = true
-				const p = this.getPoint(e)
+				this.point = this.getPoint(e)
 			})
 		}
 
@@ -49,7 +50,7 @@ class Main {
 	getPoint(e) {
 		// タッチイベントとマウスイベントの差を吸収
 		let te = e.type.match(/mouse/) ? e : e.changedTouches[0]
-		return {x: 2, y: 2}
+		return {x: te.pageX, y: te.pageY}
 	}
 
 	// 更新と描画
@@ -57,7 +58,7 @@ class Main {
 		// TODO: TitleかGameかResultか、みたいな分岐を入れるといいのかも
 
 		// 状態を更新して、内部バッファをcanvasに反映させる。
-		this.GameScene.update()
+		this.GameScene.update(this.touched, this.point)
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 		this.ctx.drawImage(this.GameScene.draw(), 0, 0)
 

@@ -4,6 +4,10 @@ export class Board {
 	// 盤面
 	buff= document.createElement("canvas")
 	ctx = this.buff.getContext('2d')
+
+	// 持っているドロップ
+	move = document.createElement("canvas")
+	mctx = this.move.getContext('2d')
 	// 	left = document.createElement("img")
 
 	// canvasの幅と高さ
@@ -30,18 +34,49 @@ export class Board {
 		this.buff.height = this.height
 		this.gridWidth = this.width / this.drop.width
 		this.gridHeight = this.height / this.drop.height
+
+		// 持っているドロップ
+		this.move.width = this.gridWidth* 1.3
+		this.move.height= this.gridHeight * 1.3
+		this.mctx.globalAlpha = 0.8
 	}
 
-	update() {
+	// 盤面の更新
+	// touched: 触り中かどうか
+	// point: 触っている座標
+	update(touched, point) {
+		//
+	}
+
+	// 盤面の描画
+	// touched: 触り中かどうか
+	// point: 触っている座標
+	draw(touched, point) {
 		this.drawBG()
 		this.drawDrop()
+		if (touched) this.drawOperation(point)
+	}
+
+	// 操作ドロップを描画
+	private drawOperation(point) {
+		// 座標計算
+		const i = Math.floor(point.x / this.gridWidth)
+		const j = Math.floor(point.y / this.gridHeight)
+		const dx = point.x - this.move.width / 2
+		const dy = point.y - this.move.height / 2
+
+		// 半透明のcanvasをbuffに重ねる
+		this.mctx.clearRect(0, 0, this.move.width, this.move.height)
+		this.mctx.drawImage(this.drop.colorMap[this.drop.map[i][j]], 0, 0, this.move.width, this.move.height)
+		this.ctx.drawImage(this.move, dx, dy, this.move.width, this.move.height)
 	}
 
 	// 盤面のドロップを描画
 	private drawDrop() {
 		for (let i = 0; i < this.drop.width; i++) {
 			for (let j = 0; j < this.drop.height; j++) {
-				this.ctx.drawImage(this.drop.colorMap[this.drop.map[i][j]], i * this.gridWidth, j * this.gridHeight, this.gridWidth, this.gridHeight)
+				this.ctx.drawImage(this.drop.colorMap[this.drop.map[i][j]],
+				i * this.gridWidth, j * this.gridHeight, this.gridWidth, this.gridHeight)
 			}
 		}
 	}

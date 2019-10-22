@@ -33,8 +33,24 @@ export class GameScene {
 	}
 
 	// ゲームの状態を更新する
-	update(): void {
-		this.board.update()
+	// touched: 触り中かどうか
+	// point: 触っている座標
+	update(touched, point): void {
+		let p = {x: point.x, y: point.y}
+		if (touched) {
+			// 盤面の位置にy座標を調整
+			p.y = p.y - this.boardHeight
+
+			// 座標をscale
+			p.x /= this.scale
+			p.y /= this.scale
+
+			// 盤面内に制限
+			if (p.y < 0) p.y = 0
+		}
+
+		this.board.update(touched, p)
+		this.board.draw(touched, p)
 	}
 
 	// 内部バッファに画像を描画する
