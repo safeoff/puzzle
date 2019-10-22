@@ -5,9 +5,6 @@ export class Board {
 	buff= document.createElement("canvas")
 	ctx = this.buff.getContext('2d')
 
-	// 持っているドロップ
-	move = document.createElement("canvas")
-	mctx = this.move.getContext('2d')
 	// 	left = document.createElement("img")
 
 	// canvasの幅と高さ
@@ -36,16 +33,20 @@ export class Board {
 		this.gridHeight = this.height / this.drop.height
 
 		// 持っているドロップ
-		this.move.width = this.gridWidth* 1.3
-		this.move.height= this.gridHeight * 1.3
-		this.mctx.globalAlpha = 0.8
+		this.drop.move.width = this.gridWidth* 1.3
+		this.drop.move.height= this.gridHeight * 1.3
+		this.drop.mctx.globalAlpha = 0.8
 	}
 
 	// 盤面の更新
 	// touched: 触り中かどうか
 	// point: 触っている座標
 	update(touched, point) {
-		//
+		// 座標計算
+		if (touched) {
+			this.drop.moveP.x = Math.floor(point.x / this.gridWidth)
+			this.drop.moveP.y = Math.floor(point.y / this.gridHeight)
+		}
 	}
 
 	// 盤面の描画
@@ -53,28 +54,29 @@ export class Board {
 	// point: 触っている座標
 	draw(touched, point) {
 		this.drawBG()
-		this.drawDrop()
+		this.drawDrop(touched)
 		if (touched) this.drawOperation(point)
 	}
 
 	// 操作ドロップを描画
 	private drawOperation(point) {
 		// 座標計算
-		const i = Math.floor(point.x / this.gridWidth)
-		const j = Math.floor(point.y / this.gridHeight)
-		const dx = point.x - this.move.width / 2
-		const dy = point.y - this.move.height / 2
+		const dx = point.x - this.drop.move.width / 2
+		const dy = point.y - this.drop.move.height / 2
 
 		// 半透明のcanvasをbuffに重ねる
-		this.mctx.clearRect(0, 0, this.move.width, this.move.height)
-		this.mctx.drawImage(this.drop.colorMap[this.drop.map[i][j]], 0, 0, this.move.width, this.move.height)
-		this.ctx.drawImage(this.move, dx, dy, this.move.width, this.move.height)
+		this.drop.mctx.clearRect(0, 0, this.drop.move.width, this.drop.move.height)
+		// this.drop.mctx.drawImage(this.drop.colorMap[this.drop.map[i][j]],
+		this.drop.mctx.drawImage(this.drop.colorMap[this.drop.map[this.drop.moveP.x][this.drop.moveP.y]],
+			0, 0, this.drop.move.width, this.drop.move.height)
+		this.ctx.drawImage(this.drop.move, dx, dy, this.drop.move.width, this.drop.move.height)
 	}
 
 	// 盤面のドロップを描画
-	private drawDrop() {
+	private drawDrop(touched) {
 		for (let i = 0; i < this.drop.width; i++) {
 			for (let j = 0; j < this.drop.height; j++) {
+				if (touched && i == this.drop.moveP.x && j == this.drop.moveP.y) continue
 				this.ctx.drawImage(this.drop.colorMap[this.drop.map[i][j]],
 				i * this.gridWidth, j * this.gridHeight, this.gridWidth, this.gridHeight)
 			}

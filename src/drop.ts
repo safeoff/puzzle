@@ -5,6 +5,11 @@ export class Drop {
 	width = 6
 	height = 5
 
+	// 持っているドロップ
+	moveP = {x: 0, y: 0}
+	move = document.createElement("canvas")
+	mctx = this.move.getContext('2d')
+
 	// 画像
 	img   = document.createElement("img")
 	fire  = document.createElement("canvas")
