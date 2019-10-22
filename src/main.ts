@@ -21,25 +21,35 @@ class Main {
 		window.requestAnimationFrame(() => this.draw())
 
 		// リスナーを入れる
-		this.canvas.addEventListener("touchstart", this.down)
-		this.canvas.addEventListener("mousedown", this.down)
-		this.canvas.addEventListener("touchmove", this.move)
-		this.canvas.addEventListener("mousemove", this.move)
-		this.canvas.addEventListener("touchend", this.up)
-		this.canvas.addEventListener("mouseup", this.up)
+		// 関数ではなくe => {}の書式で書く理由は、thisの参照がcanvasに変わっちゃうから
+		let events = ["touchstart","mousedown"]
+		for (const event of events) {
+			this.canvas.addEventListener(event, e => {
+				this.touched = true
+			})
+		}
+
+		events = ["touchmove","mousemove"]
+		for (const event of events) {
+			this.canvas.addEventListener(event, e => {
+				this.touched = true
+				const p = this.getPoint(e)
+			})
+		}
+
+		events = ["touchend","mouseup"]
+		for (const event of events) {
+			this.canvas.addEventListener(event, e => {
+				this.touched = false
+			})
+		}
 	}
 
-	// タップイベント達
-	down(e) {
-		this.touched = true
-	}
-
-	move(e) {
-		if (!this.touched) return
-	}
-
-	up(e) {
-		this.touched = false
+	// 座標を取得
+	getPoint(e) {
+		// タッチイベントとマウスイベントの差を吸収
+		let te = e.type.match(/mouse/) ? e : e.changedTouches[0]
+		return {x: 2, y: 2}
 	}
 
 	// 更新と描画
